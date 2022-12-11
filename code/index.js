@@ -112,15 +112,19 @@ client.on("message", (channel, userstate, message, self) => {
                 .then(data => console.log(data))
             };
             if (String(message).toLowerCase() == "damn!nachrichten") {
+                const numbers = [];
                 var all = 0;
                 fetch(mainurl+"/twitch/messages/all", {method: "GET"})
                 .then(res => res.json())
                 .then(data => {
-                    data.forEach((e) => {
+                    data.forEach(e => {
                         const {key, value} = e;
-                        all = all + parseInt(value);
+                        numbers.push(parseInt(value));
                     });
                 });
+                numbers.forEach(item => {
+                    all = all + parseInt(item);
+                })
                 client.say(channel, `Aktuell wurden insgesamt ${all} Nachrichten auf diesem Channel geschickt ~ @${userstate.username}`);
             };
             if (String(message).toLowerCase() === "poggers") {
